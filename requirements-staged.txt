@@ -1,0 +1,15 @@
+# 核心依賴
+line-bot-sdk==3.5.0
+
+# Web 框架 
+fastapi>=0.100.0
+uvicorn>=0.23.0
+
+# 資料庫
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+
+# 工具套件
+python-dotenv>=1.0.0
+python-multipart>=0.0.6
+gunicorn>=20.1.0

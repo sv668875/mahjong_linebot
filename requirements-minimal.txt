@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+line-bot-sdk==3.5.0
+sqlalchemy
+python-dotenv
+python-multipart
+psycopg2-binary
+gunicorn
