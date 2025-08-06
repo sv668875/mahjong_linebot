@@ -77,8 +77,24 @@ def parse_join_command(command_text):
     """
     解析 /加入 指令參數
     
-    輸入範例: "/加入 小明"
-    輸出: {"nickname": "小明"}
+    Args:
+        command_text: 完整指令文字，例如 '/加入 小明' 或 '/加入'
+        
+    Returns:
+        dict: 包含解析結果的字典
+        {
+            "nickname": str or None  # 暱稱（可選，系統會自動使用 LINE ID 綁定的名稱）
+        }
+        
+    Examples:
+        "/加入 小明" -> {"nickname": "小明"}
+        "/加入" -> {"nickname": None}
+        
+    Note:
+        系統使用 LINE ID 來綁定數據，暱稱參數是可選的：
+        - 如果有設定慣用暱稱 → 自動使用慣用暱稱
+        - 如果沒有設定慣用暱稱 → 自動使用 LINE 原本名字
+        - 提供的暱稱參數會被系統邏輯覆蓋，並給予說明
     """
     text = command_text.replace("/加入", "").strip()
     

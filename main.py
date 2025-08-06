@@ -10,6 +10,9 @@ from dotenv import load_dotenv
 
 from models.database import engine, Base
 from handlers.game_handler import handle_game_command
+from handlers.join_handler import handle_join_command, handle_wind_selection
+from handlers.status_handler import handle_status_command, handle_dealer_command, handle_quit_command
+from handlers.user_handler import handle_set_nickname_command, handle_my_stats_command, handle_nickname_info_command, handle_top_players_command
 
 # 載入環境變數
 load_dotenv()
@@ -50,9 +53,46 @@ def handle_message(event):
     if text.startswith('/開局'):
         handle_game_command(event, line_bot_api, text, group_id)
     
-    # TODO: 處理其他指令
-    # elif text.startswith('/加入'):
-    #     handle_join_command(event, line_bot_api, text, group_id)
+    # 處理加入指令
+    elif text.startswith('/加入'):
+        handle_join_command(event, line_bot_api, text, group_id)
+    
+    # 處理風位選擇指令
+    elif text.startswith('/選風'):
+        wind = text.replace('/選風', '').strip()
+        if wind in ['東', '南', '西', '北']:
+            handle_wind_selection(event, line_bot_api, wind, group_id)
+        else:
+            from services.line_api import send_text_message
+            send_text_message(line_bot_api, event, "❌ 請選擇正確的風位：東、南、西、北")
+    
+    # 處理狀態查詢指令
+    elif text in ['/狀態', '/status', '/查詢']:
+        handle_status_command(event, line_bot_api, group_id)
+    
+    # 處理莊家設定指令
+    elif text in ['/我當莊', '/當莊']:
+        handle_dealer_command(event, line_bot_api, group_id)
+    
+    # 處理退出指令
+    elif text in ['/退出', '/離開']:
+        handle_quit_command(event, line_bot_api, group_id)
+    
+    # 處理用戶身份綁定指令
+    elif text.startswith('/設定暱稱'):
+        handle_set_nickname_command(event, line_bot_api, text)
+    
+    # 處理個人統計查詢指令
+    elif text in ['/我的統計', '/統計', '/個人記錄']:
+        handle_my_stats_command(event, line_bot_api)
+    
+    # 處理暱稱資訊查詢指令
+    elif text in ['/暱稱資訊', '/我的暱稱']:
+        handle_nickname_info_command(event, line_bot_api)
+    
+    # 處理群組排行榜指令
+    elif text in ['/排行榜', '/排行']:
+        handle_top_players_command(event, line_bot_api, group_id)
 
 if __name__ == "__main__":
     import uvicorn
