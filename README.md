@@ -112,7 +112,7 @@ mahjong_linebot/
 3. **設定部署參數**
    - **Build Command**: `pip install -r requirements.txt`
    - **Start Command**: `gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:$PORT`
-   - **Python Version**: `3.9.6`
+   - **Python Version**: `3.11.9` (解決 Python 3.13 與 aiohttp 相容性問題)
 
 4. **建立 PostgreSQL 資料庫**
    - 在 Render Dashboard 點選 "New" → "PostgreSQL"
